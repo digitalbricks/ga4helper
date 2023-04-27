@@ -1,5 +1,6 @@
 class Ga4helper{
     constructor(propertyId, debug=false){
+        this.version = "0.1.0";
         this.propertyId = propertyId;
         this.debug = debug;
 
@@ -8,7 +9,7 @@ class Ga4helper{
     }
 
     load(){
-        // check script with id ga4helper_script exists
+        // check if script element exists
         if(document.getElementById('ga4helper_script')){
             if (this.debug) console.log("#ga4helper_script already exists");
             return;
@@ -40,6 +41,8 @@ class Ga4helper{
 
         // remove cookie
         this.bulkDeleteCookies();
+
+
     }
 
     bulkDeleteCookies(){
@@ -56,12 +59,16 @@ class Ga4helper{
 
     deleteCookie(name, domain, path) {
         if(!domain || domain==""){
-            domain = "." + window.location.hostname;
+            let domain = window.location.hostname;
         }
         if(!path || path==""){
-            path = "/";
+            let path = "/";
         }
-        document.cookie = name + '=; domain=' +  domain +'; Expires=Thu, 01 Jan 1970 00:00:01 GMT; path=' + path;
+        let dot_domain = "." + domain;
+
+        // we need to delete the cookie from all possible paths
+        document.cookie = name +'=; Path=' + path + '; Domain=' + domain + '; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.cookie = name +'=; Path=' + path + '; Domain=' + dot_domain + '; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         if (this.debug) console.log("cookie deleted: "+name);
     }
