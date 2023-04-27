@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Analytics Test Page</title>
+</head>
+<body>
+
+    <script>
+        // YOU GA4 PROPERTY ID G-XXXXXXXXXX GOES HERE (for testing purposes only)
+        var propertyId = '';
+    </script>
+
+    <h1>Google Analytics Test Page</h1>
+    <p>
+        Configured GA4 porperty ID:
+        <strong id="propertyId">
+            <script>document.write(propertyId);</script>
+        </strong>
+    </p>
+
+    <button id="ga_load">Load GA4</button> <button id="ga_unload">UNLoad GA4</button>
+
+
+
+
+    <script src="ga4helper.js"></script>
+
+
+    <script>
+        /*
+        * In this example, we are using buttons with event listeners for loading/unloading GA4.
+        * In a real world project you would probably want to load/unload GA4 depending on the consent status
+        * of your cookie consent tool.
+        * */
+        if(propertyId == ''){
+            alert("Please set your GA4 property ID (propertyId) in demo.html");
+        };
+
+        document.getElementById("ga_load").addEventListener("click", loadTest);
+        document.getElementById("ga_unload").addEventListener("click", unloadTest);
+
+        // instantiate the helper class
+        var ga4helper = new Ga4helper(propertyId, true);
+        function loadTest(event){
+            event.preventDefault();
+            console.log("loadTest");
+            // load GA4
+            ga4helper.load();
+        }
+
+        function unloadTest(event){
+            event.preventDefault();
+            console.log("unloadTest");
+            // unload GA4
+            ga4helper.unload();
+        }
+    </script>
+    
+</body>
+</html>
